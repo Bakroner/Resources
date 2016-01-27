@@ -27,6 +27,51 @@ float deltaTime = 0.0;
 int thisTime = 0;
 int lastTime = 0;
 
+// create the SDL_Rectangle for the texture's position and size -x,y,w,h
+   SDL_Rect bkgd1Pos;
+
+   // create the SDL_Rectangle for the texture's position and size -x,y,w,h
+   SDL_Rect bkgd2Pos;
+
+// set speed for background
+    int bkgdSpeed = 100;
+
+    // set temp variables to hold movement - background 1
+    float BG1pos_X = 0,BG1pos_Y = 0;
+
+    // set temp variables to hold movement - background 2
+    float BG2pos_X = 0,BG2pos_Y = -768;
+
+// move the background
+void UpdateBackground(){
+	// Update Background 1
+	BG1pos_Y += (bkgdSpeed * 1) * deltaTime;
+
+	// set the new bkgd1 position
+	bkgd1Pos.y = (int)(BG1pos_Y + 0.5f);
+	// reset when off the bottom of the screen
+	if(bkgd1Pos.y >= 768){
+
+		bkgd1Pos.y = -768;
+		BG1pos_Y = bkgd1Pos.y;
+
+		}
+
+// Update Background 2
+	BG2pos_Y += (bkgdSpeed * 1) * deltaTime;
+
+	// set the new bkgd1 position
+	bkgd2Pos.y = (int)(BG2pos_Y + 0.5f);
+
+// reset when off the bottom of the screen
+	if(bkgd2Pos.y >= 768){
+
+		bkgd2Pos.y = -768;
+		BG2pos_Y = bkgd2Pos.y;
+
+		}
+}
+
 int main(int argc, char* argv[]) {
 
 #if defined(_WIN32) || (_WIN64)
@@ -107,32 +152,17 @@ int main(int argc, char* argv[]) {
     // free the SDL surface
     //SDL_FreeSurface(surface);
 
-    // create the SDL_Rectangle for the texture's position and size -x,y,w,h
-    SDL_Rect bkgd1Pos;
-
     // set the X,Y,W, and H for the Rectangle
     bkgd1Pos.x = 0;
     bkgd1Pos.y = 0;
     bkgd1Pos.w = 1024;
     bkgd1Pos.h = 768;
 
-    // create the SDL_Rectangle for the texture's position and size -x,y,w,h
-        SDL_Rect bkgd2Pos;
-
-        // set the X,Y,W, and H for the Rectangle
-        bkgd2Pos.x = 0;
-        bkgd2Pos.y = -768;
-        bkgd2Pos.w = 1024;
-        bkgd2Pos.h = 768;
-
-    // set speed for background
-    int bkgdSpeed = 100;
-
-    // set temp variables to hold movement - background 1
-    float BG1pos_X = 0,BG1pos_Y = 0;
-
-    // set temp variables to hold movement - background 2
-    float BG2pos_X = 0,BG2pos_Y = -768;
+     // set the X,Y,W, and H for the Rectangle
+     bkgd2Pos.x = 0;
+     bkgd2Pos.y = -768;
+     bkgd2Pos.w = 1024;
+     bkgd2Pos.h = 768;
 
     // create cursor
     string CURSORpath = s_cwd_images + "/Cursor.png";
@@ -154,6 +184,8 @@ int main(int argc, char* argv[]) {
         cursorPos.y = 0;
         cursorPos.w = 37;
         cursorPos.h = 36;
+
+
 
     /*
 	//The surface contained by the window
@@ -270,35 +302,7 @@ int main(int argc, char* argv[]) {
 					}
 					//Update
 
-					// Update Background 1
-					BG1pos_Y += (bkgdSpeed * 1) * deltaTime;
-
-					// set the new bkgd1 position
-					bkgd1Pos.y = (int)(BG1pos_Y + 0.5f);
-
-					// reset when off the bottom of the screen
-					if(bkgd1Pos.y >= 768){
-
-						bkgd1Pos.y = -768;
-
-						BG1pos_Y = bkgd1Pos.y;
-
-					}
-
-					// Update Background 2
-					BG2pos_Y += (bkgdSpeed * 1) * deltaTime;
-
-					// set the new bkgd1 position
-					bkgd2Pos.y = (int)(BG2pos_Y + 0.5f);
-
-					// reset when off the bottom of the screen
-					if(bkgd2Pos.y >= 768){
-
-					bkgd2Pos.y = -768;
-
-					BG2pos_Y = bkgd2Pos.y;
-
-					}
+					UpdateBackground();
 
 					// Start Drawing
 
