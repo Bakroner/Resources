@@ -2,6 +2,7 @@
 #if defined(_WIN32) || (_WIN64)
 
 #include "SDL.h"
+#include "SDL_image.h"
 
 #endif
 
@@ -17,6 +18,11 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 
+#endif
+
+#if defined(_WIN32) || (_WIN64)
+#include <direct.h>
+#define getcwd _getcwd
 #endif
 
 #if defined(__linux__)
@@ -82,6 +88,12 @@ int main(int argc, char* argv[]) {
 #if defined(_WIN32) || (_WIN64)
 
 	cout << "Running on Windows" << endl;
+
+	//get the current working directory
+	string currentWorkingDirectory(getcwd(NULL, 0));
+
+	//create a string linking to the mac's images folder
+	string images_dir = currentWorkingDirectory + "\\Resources\\Images\\";
 
 #endif
 
