@@ -355,7 +355,9 @@ int main(int argc, char* argv[]) {
 
       //************** QUIT GAME *****************
 
-    // create cursor
+     //********************** Create Main Menu ***************************
+
+    //**************** CREATE CURSOR ***************
     string CURSORpath = s_cwd_images + "/Cursor.png";
 
     // create a SDL surface to hold the cursor image
@@ -367,8 +369,10 @@ int main(int argc, char* argv[]) {
     // place surface into the texture cursor
     cursor = SDL_CreateTextureFromSurface(renderer,surface);
 
+    SDL_FreeSurface(surface);
+
     // create the SDL_Rectangle for the texture's position and size -x,y,w,h
-        SDL_Rect cursorPos;
+        SDL_Rect cursorPos, activePos;
 
         // set the X,Y,W, and H for the Rectangle
         cursorPos.x = 0;
@@ -376,6 +380,377 @@ int main(int argc, char* argv[]) {
         cursorPos.w = 37;
         cursorPos.h = 36;
 
+        // set the X,Y,W, and H for the Rectangle
+        activePos.x = 10;
+        activePos.y = 10;
+        activePos.w = 10;
+        activePos.h = 10;
+
+        int cursorSpeed = 400;
+
+    //**************** CREATE CURSOR ***************
+
+    //************** INSTRUCTIONS MENU *****************
+
+    //************** INSTRUCTIONS TEXT *****************
+     string instructionsTpath = s_cwd_images + "/Instructions Text.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(instructionsTpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *instructionsT;
+
+         // place surface into the texture bkgd1
+         instructionsT = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect instructionsTPos;
+
+       // set the X,Y,W, and H for the Rectangle
+          instructionsTPos.x = 80;
+          instructionsTPos.y = 160;
+          instructionsTPos.w = 888;
+          instructionsTPos.h = 364;
+
+     //************** INSTRUCTIONS TEXT *****************
+
+    //************** INSTRUCTIONS RETURN MAIN MENU *****************
+     string returnToMainMenuIpath = s_cwd_images + "/Return To Main Menu.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(returnToMainMenuIpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *returnToMainMenuI;
+
+         // place surface into the texture bkgd1
+         returnToMainMenuI = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect returnToMainMenuIPos;
+
+         string returnToMainMenuIOpath = s_cwd_images + "/Return To Main Menu Pressed.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(returnToMainMenuIOpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *returnToMainMenuIO;
+
+         // place surface into the texture bkgd1
+         returnToMainMenuIO = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+       // set the X,Y,W, and H for the Rectangle
+          returnToMainMenuIPos.x = 100;
+          returnToMainMenuIPos.y = 610;
+          returnToMainMenuIPos.w = 848;
+          returnToMainMenuIPos.h = 72;
+
+    //************** INSTRUCTIONS RETURN MAIN MENU *****************
+
+     //************** INSTRUCTIONS MENU *****************
+
+
+     //************** ONE PLAYER GAME *****************
+
+    //************** ONE PLAYER GRAPHIC *****************
+     string onePlayerGameGpath = s_cwd_images + "/One Player Game.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(onePlayerGameGpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *onePlayerGameG;
+
+         // place surface into the texture bkgd1
+         onePlayerGameG = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect onePlayerGameGPos;
+
+       // set the X,Y,W, and H for the Rectangle
+          onePlayerGameGPos.x = 200;
+          onePlayerGameGPos.y = 160;
+          onePlayerGameGPos.w = 648;
+          onePlayerGameGPos.h = 72;
+     //************** ONE PLAYER GRAPHIC *****************
+
+     //************** ONE PLAYER GAME *****************
+
+
+     //************** TWO PLAYER GAME *****************
+
+    //************** TWO PLAYER GRAPHIC *****************
+     string twoPlayerGameGpath = s_cwd_images + "/Two Player Game.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(twoPlayerGameGpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *twoPlayerGameG;
+
+         // place surface into the texture bkgd1
+         twoPlayerGameG = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect twoPlayerGameGPos;
+
+       // set the X,Y,W, and H for the Rectangle
+          twoPlayerGameGPos.x = 200;
+          twoPlayerGameGPos.y = 160;
+          twoPlayerGameGPos.w = 648;
+          twoPlayerGameGPos.h = 72;
+     //************** TWO PLAYER GRAPHIC *****************
+
+     //************** TWO PLAYER GAME *****************
+
+
+	//************** WIN SCREEN *****************
+
+    //************** WIN TEXT *****************
+     string winTpath = s_cwd_images + "/Win Text.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(winTpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *winT;
+
+         // place surface into the texture bkgd1
+         winT = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect winTPos;
+
+       // set the X,Y,W, and H for the Rectangle
+          winTPos.x = 200;
+          winTPos.y = 188;
+          winTPos.w = 667;
+          winTPos.h = 119;
+
+     //************** WIN TEXT *****************
+
+    //************** WIN RETURN MAIN MENU *****************
+     string returnToMainMenuWpath = s_cwd_images + "/Return To Main Menu.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(returnToMainMenuWpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *returnToMainMenuW;
+
+         // place surface into the texture bkgd1
+         returnToMainMenuW = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect returnToMainMenuWPos;
+
+         string returnToMainMenuWOpath = s_cwd_images + "/Return To Main Menu Pressed.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(returnToMainMenuWOpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *returnToMainMenuWO;
+
+         // place surface into the texture bkgd1
+         returnToMainMenuWO = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+       // set the X,Y,W, and H for the Rectangle
+          returnToMainMenuWPos.x = 88;
+          returnToMainMenuWPos.y = 404;
+          returnToMainMenuWPos.w = 848;
+          returnToMainMenuWPos.h = 72;
+
+    //************** WIN RETURN MAIN MENU *****************
+
+    //************** WIN PLAY AGAIN *****************
+     string playAgainBWpath = s_cwd_images + "/Play Again Button.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(playAgainBWpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *playAgainBW;
+
+         // place surface into the texture bkgd1
+         playAgainBW = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect playAgainBWPos;
+
+         string playAgainBWOpath = s_cwd_images + "/Play Again Button Pressed.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(playAgainBWOpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *playAgainBWO;
+
+         // place surface into the texture bkgd1
+         playAgainBWO = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+       // set the X,Y,W, and H for the Rectangle
+          playAgainBWPos.x = 302;
+          playAgainBWPos.y = 574;
+          playAgainBWPos.w = 459;
+          playAgainBWPos.h = 72;
+
+    //************** WIN PLAY AGAIN *****************
+
+     //************** WIN SCREEN *****************
+
+
+     //************** LOSE SCREEN *****************
+
+    //************** LOSE TEXT *****************
+     string loseTpath = s_cwd_images + "/Lose Text.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(loseTpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *loseT;
+
+         // place surface into the texture bkgd1
+         loseT = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect loseTPos;
+
+       // set the X,Y,W, and H for the Rectangle
+          loseTPos.x = 259;
+          loseTPos.y = 100;
+          loseTPos.w = 547;
+          loseTPos.h = 119;
+
+     //************** LOSE TEXT *****************
+
+    //************** LOSE RETURN MAIN MENU *****************
+     string returnToMainMenuLpath = s_cwd_images + "/Return To Main Menu.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(returnToMainMenuLpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *returnToMainMenuL;
+
+         // place surface into the texture bkgd1
+         returnToMainMenuL = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect returnToMainMenuLPos;
+
+         string returnToMainMenuLOpath = s_cwd_images + "/Return To Main Menu Pressed.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(returnToMainMenuLOpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *returnToMainMenuLO;
+
+         // place surface into the texture bkgd1
+         returnToMainMenuLO = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+       // set the X,Y,W, and H for the Rectangle
+          returnToMainMenuLPos.x = 88;
+          returnToMainMenuLPos.y = 404;
+          returnToMainMenuLPos.w = 848;
+          returnToMainMenuLPos.h = 72;
+
+    //************** LOSE RETURN MAIN MENU *****************
+
+    //************** LOSE PLAY AGAIN *****************
+     string playAgainBLpath = s_cwd_images + "/Play Again Button.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(playAgainBLpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *playAgainBL;
+
+         // place surface into the texture bkgd1
+         playAgainBL = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+         // create SDL Rectangle for the title graphic
+
+         SDL_Rect playAgainBLPos;
+
+         string playAgainBLOpath = s_cwd_images + "/Play Again Button Pressed.png";
+
+     // create a SDL surface to hold the background image
+         surface = IMG_Load(playAgainBLOpath.c_str());
+
+         // create a SDL texture
+         SDL_Texture *playAgainBLO;
+
+         // place surface into the texture bkgd1
+         playAgainBLO = SDL_CreateTextureFromSurface(renderer,surface);
+
+      // free the SDL surface
+         SDL_FreeSurface(surface);
+
+       // set the X,Y,W, and H for the Rectangle
+          playAgainBLPos.x = 302;
+          playAgainBLPos.y = 574;
+          playAgainBLPos.w = 459;
+          playAgainBLPos.h = 72;
+
+    //************** LOSE PLAY AGAIN *****************
+
+     //************** LOSE SCREEN *****************
 
 
     /*
@@ -540,6 +915,12 @@ int main(int argc, char* argv[]) {
 
 							while(instructions)
 							{
+
+								// set up frame rate for the section, or CASE
+								thisTime = SDL_GetTicks();
+								deltaTime = (float)(thisTime - lastTime)/1000;
+								lastTime = thisTime;
+
 								//Check for input events
 								if(SDL_PollEvent(&event))
 								{
@@ -570,8 +951,38 @@ int main(int argc, char* argv[]) {
 											}
 											break;
 									}
-
 								}
+
+								//Update
+
+								UpdateBackground();
+
+								// Start Drawing
+
+								//Clear SDL renderer
+								SDL_RenderClear(renderer);
+
+								// Draw the bkgd1 image
+								SDL_RenderCopy(renderer,bkgd1,NULL,&bkgd1Pos);
+
+								// Draw the bkgd2 image
+								SDL_RenderCopy(renderer,bkgd2,NULL,&bkgd2Pos);
+
+								// Draw the Game Title image
+								SDL_RenderCopy(renderer,title,NULL,&titlePos);
+
+								// Draw the Game Instructions Text image
+								SDL_RenderCopy(renderer,instructionsT,NULL,&instructionsTPos);
+
+								// Draw the Return to Main Menu button
+								SDL_RenderCopy(renderer,returnToMainMenuI,NULL,&returnToMainMenuIPos);
+
+								// Draw the cursor image
+								SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
+
+								//SDL Render present
+								SDL_RenderPresent(renderer);
+
 							}
 							break; // end instruction case
 
@@ -584,6 +995,11 @@ int main(int argc, char* argv[]) {
 
 										while(players1)
 										{
+
+										// set up frame rate for the section, or CASE
+											thisTime = SDL_GetTicks();
+											deltaTime = (float)(thisTime - lastTime)/1000;
+											lastTime = thisTime;
 											//Check for input events
 											if(SDL_PollEvent(&event))
 											{
@@ -624,6 +1040,34 @@ int main(int argc, char* argv[]) {
 												}
 
 											}
+
+											//Update
+
+								UpdateBackground();
+
+								// Start Drawing
+
+								//Clear SDL renderer
+								SDL_RenderClear(renderer);
+
+								// Draw the bkgd1 image
+								SDL_RenderCopy(renderer,bkgd1,NULL,&bkgd1Pos);
+
+								// Draw the bkgd2 image
+								SDL_RenderCopy(renderer,bkgd2,NULL,&bkgd2Pos);
+
+								// Draw the title image
+								SDL_RenderCopy(renderer,title,NULL,&titlePos);
+
+								// Draw the one player graphic image image
+								SDL_RenderCopy(renderer,onePlayerGameG,NULL,&onePlayerGameGPos);
+
+								// Draw the cursor image
+								SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
+
+								//SDL Render present
+								SDL_RenderPresent(renderer);
+
 										}
 										break; // end players1 case
 
@@ -636,6 +1080,10 @@ int main(int argc, char* argv[]) {
 
 							while(players2)
 								{
+								// set up frame rate for the section, or CASE
+											thisTime = SDL_GetTicks();
+											deltaTime = (float)(thisTime - lastTime)/1000;
+											lastTime = thisTime;
 									//Check for input events
 									if(SDL_PollEvent(&event))
 										{
@@ -672,8 +1120,36 @@ int main(int argc, char* argv[]) {
 													}
 													break;
 											}
-
 										}
+
+										//Update
+
+								UpdateBackground();
+
+								// Start Drawing
+
+								//Clear SDL renderer
+								SDL_RenderClear(renderer);
+
+								// Draw the bkgd1 image
+								SDL_RenderCopy(renderer,bkgd1,NULL,&bkgd1Pos);
+
+								// Draw the bkgd2 image
+								SDL_RenderCopy(renderer,bkgd2,NULL,&bkgd2Pos);
+
+								// Draw the title image
+								SDL_RenderCopy(renderer,title,NULL,&titlePos);
+
+								// Draw the two player graphic image image
+								SDL_RenderCopy(renderer,twoPlayerGameG,NULL,&twoPlayerGameGPos);
+
+								// Draw the cursor image
+								SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
+
+								//SDL Render present
+								SDL_RenderPresent(renderer);
+
+
 									}
 							break; // end players2 case
 
@@ -686,6 +1162,12 @@ int main(int argc, char* argv[]) {
 
 										while(win)
 											{
+
+											// set up frame rate for the section, or CASE
+											thisTime = SDL_GetTicks();
+											deltaTime = (float)(thisTime - lastTime)/1000;
+											lastTime = thisTime;
+
 												//Check for input events
 												if(SDL_PollEvent(&event))
 													{
@@ -722,8 +1204,38 @@ int main(int argc, char* argv[]) {
 																}
 																break;
 														}
-
 													}
+
+													//Update
+
+								UpdateBackground();
+
+								// Start Drawing
+
+								//Clear SDL renderer
+								SDL_RenderClear(renderer);
+
+								// Draw the bkgd1 image
+								SDL_RenderCopy(renderer,bkgd1,NULL,&bkgd1Pos);
+
+								// Draw the bkgd2 image
+								SDL_RenderCopy(renderer,bkgd2,NULL,&bkgd2Pos);
+
+								// Draw the Game Win Text image
+								SDL_RenderCopy(renderer,winT,NULL,&winTPos);
+
+								// Draw the Return to Main Menu button
+								SDL_RenderCopy(renderer,returnToMainMenuW,NULL,&returnToMainMenuWPos);
+
+								// Draw the Play Again button
+								SDL_RenderCopy(renderer,playAgainBW,NULL,&playAgainBWPos);
+
+								// Draw the cursor image
+								SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
+
+								//SDL Render present
+								SDL_RenderPresent(renderer);
+
 												}
 										break; // end WIN case
 
@@ -736,6 +1248,11 @@ int main(int argc, char* argv[]) {
 
 													while(lose)
 														{
+														// set up frame rate for the section, or CASE
+														thisTime = SDL_GetTicks();
+														deltaTime = (float)(thisTime - lastTime)/1000;
+														lastTime = thisTime;
+
 															//Check for input events
 															if(SDL_PollEvent(&event))
 																{
@@ -774,6 +1291,36 @@ int main(int argc, char* argv[]) {
 																	}
 
 																}
+
+																//Update
+
+								UpdateBackground();
+
+								// Start Drawing
+
+								//Clear SDL renderer
+								SDL_RenderClear(renderer);
+
+								// Draw the bkgd1 image
+								SDL_RenderCopy(renderer,bkgd1,NULL,&bkgd1Pos);
+
+								// Draw the bkgd2 image
+								SDL_RenderCopy(renderer,bkgd2,NULL,&bkgd2Pos);
+
+								// Draw the Game Lose Text image
+								SDL_RenderCopy(renderer,loseT,NULL,&loseTPos);
+
+								// Draw the Return to Main Menu button
+								SDL_RenderCopy(renderer,returnToMainMenuL,NULL,&returnToMainMenuLPos);
+
+								// Draw the Play Again button
+								SDL_RenderCopy(renderer,playAgainBL,NULL,&playAgainBLPos);
+
+								// Draw the cursor image
+								SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
+
+								//SDL Render present
+								SDL_RenderPresent(renderer);
 															}
 													break; // end LOSE case
 		}
