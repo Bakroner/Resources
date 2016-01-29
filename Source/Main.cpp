@@ -15,7 +15,12 @@
 #if defined(__linux__)
 
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
 
+#endif
+
+#if defined(__linux__)
+#include <unistd.h>
 #endif
 
 #include <stdio.h>
@@ -96,6 +101,12 @@ int main(int argc, char* argv[]) {
 	cout << "Running on Linux" << endl;
 
 	cout << "Added on Linux" << endl;
+
+	//get the current working directory
+		string currentWorkingDirectory(getcwd(NULL,0));
+
+	//create a string linking to the mac's images folder
+		string images_dir = currentWorkingDirectory + "/Resources/Images/";
 
 #endif
 
