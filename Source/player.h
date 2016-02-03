@@ -19,36 +19,27 @@ using namespace std;
 
 class Player{
 
+public:
+
 	string playerPath;
-
 	int playerNum;
-
 	SDL_Surface*surface;
-
 	SDL_Texture*texture;
-
 	SDL_Rect posRect;
-
 	float xDir;
 	float yDir;
-
 	float speed;
-
 	float pos_X, pos_Y;
 
 	Player(SDL_Renderer*renderer,int pNum, string filePath, float x, float y);
-
-	void Update(float deltaTime);
-
-	void Draw(SDL_Renderer *renderer);
 
 	void OnControllerAxis(const SDL_ControllerAxisEvent event);
 
 	void OnControllerButton(const SDL_ControllerButtonEvent event);
 
-	//~Player();
+	void Update(float deltaTime);
 
+	void Draw(SDL_Renderer *renderer);
 
-
-
+	Player();
 };

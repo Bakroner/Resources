@@ -54,7 +54,7 @@ float BG1pos_X = 0,BG1pos_Y = 0;
 float BG2pos_X = 0,BG2pos_Y = -768;
 
 // move the background
-void UpdateBackground(){
+void UpdateBackground(float deltaTime){
 	// Update Background 1
 	BG1pos_Y += (bkgdSpeed * 1) * deltaTime;
 
@@ -83,89 +83,83 @@ void UpdateBackground(){
 }
 
 //new joystick vars
-	const int JOYSTICK_DEAD_ZONE = 8000;
+const int JOYSTICK_DEAD_ZONE = 8000;
 
-	//joystick direction vars
-	float xDir, yDir;
+//joystick direction vars
+float xDir, yDir;
 
-	//cursor float vars for movement
-	float pos_X,pos_Y;
+//cursor float vars for movement
+float pos_X,pos_Y;
 
-	//create SDL Rectangle for the 2 player graphics
-	SDL_Rect cursorPos, activePos;
+//create SDL Rectangle for the 2 player graphics
+SDL_Rect cursorPos, activePos;
 
-	//var for cursor speed
-	int cursorSpeed = 400;
+//var for cursor speed
+int cursorSpeed = 400;
 
-	void moveCursor(const SDL_ControllerAxisEvent event) {
-		//check joystick 0 - player one
-		if(event.which == 0){
+void moveCursor(const SDL_ControllerAxisEvent event) {
+	//check joystick 0 - player one
+	if(event.which == 0){
+		if(event.axis == 0){
 
-			if(event.axis == 0){
-
-				if(event.value < -JOYSTICK_DEAD_ZONE){
-					xDir = -1.0f;
-				}else if (event.value > JOYSTICK_DEAD_ZONE){
-					xDir = 1.0f;
-				}else{
-					xDir = 0.0f;
-				}
-
+			if(event.value < -JOYSTICK_DEAD_ZONE){
+				xDir = -1.0f;
+			}else if (event.value > JOYSTICK_DEAD_ZONE){
+				xDir = 1.0f;
+			}else{
+				xDir = 0.0f;
 			}
-
-			if(event.axis == 1){
-				if(event.value < -JOYSTICK_DEAD_ZONE){
-					yDir = -1.0f;
-				}else if (event.value > JOYSTICK_DEAD_ZONE){
-					yDir = 1.0f;
-				}else{
-					yDir = 0.0f;
-				}
-
+		}
+		if(event.axis == 1){
+			if(event.value < -JOYSTICK_DEAD_ZONE){
+				yDir = -1.0f;
+			}else if (event.value > JOYSTICK_DEAD_ZONE){
+				yDir = 1.0f;
+			}else{
+				yDir = 0.0f;
 			}
 		}
 	}
+}
 
-	// update cursor on screen
-	void UpdateCursor(float deltaTime){
+// update cursor on screen
+void UpdateCursor(float deltaTime){
 
-		pos_X += (cursorSpeed * xDir) * deltaTime;
-		pos_Y += (cursorSpeed * yDir) * deltaTime;
+	pos_X += (cursorSpeed * xDir) * deltaTime;
+	pos_Y += (cursorSpeed * yDir) * deltaTime;
 
 
-		cursorPos.x = (int)(pos_X + 0.5f);
-		cursorPos.y = (int)(pos_Y + 0.5f);
+	cursorPos.x = (int)(pos_X + 0.5f);
+	cursorPos.y = (int)(pos_Y + 0.5f);
 
-		//update active position of cursor - collison box
-		activePos.x = cursorPos.x;
-		activePos.y = cursorPos.y;
+	//update active position of cursor - collison box
+	activePos.x = cursorPos.x;
+	activePos.y = cursorPos.y;
 
-		// off the screen in Y
-		if(cursorPos.x < 0){
-			cursorPos.x = 0;
-			pos_X = cursorPos.x;
-		}
-
-		if(cursorPos.x > 1024 - cursorPos.w){
-			cursorPos.x = 1024 - cursorPos.w;
-			pos_X = cursorPos.x;
-		}
-
-		// off the screen in Y
-		if(cursorPos.y < 0){
-			cursorPos.y = 0;
-			pos_Y = cursorPos.y;
-		}
-
-		if(cursorPos.y > 768 - cursorPos.h){
-			cursorPos.y = 768 - cursorPos.h;
-			pos_Y = cursorPos.y;
-		}
-
+	// off the screen in Y
+	if(cursorPos.x < 0){
+		cursorPos.x = 0;
+		pos_X = cursorPos.x;
 	}
+	if(cursorPos.x > 1024 - cursorPos.w){
+		cursorPos.x = 1024 - cursorPos.w;
+		pos_X = cursorPos.x;
+	}
+	// off the screen in Y
+	if(cursorPos.y < 0){
+		cursorPos.y = 0;
+		pos_Y = cursorPos.y;
+	}
+	if(cursorPos.y > 768 - cursorPos.h){
+		cursorPos.y = 768 - cursorPos.h;
+		pos_Y = cursorPos.y;
+	}
+}
 
-	// variable for all Menu button overs
-	bool players1Over = false, players2Over = false, instructionsOver = false, quitOver = false, menuOver = false, playOver = false;
+// variable for all Menu button overs
+bool players1Over = false, players2Over = false, instructionsOver = false, quitOver = false, menuOver = false, playOver = false;
+
+#include "player.h"
 
 int main(int argc, char* argv[]) {
 
@@ -199,10 +193,10 @@ int main(int argc, char* argv[]) {
 	cout << "Added on Linux" << endl;
 
 	//get the current working directory
-		string currentWorkingDirectory(getcwd(NULL,0));
+	string currentWorkingDirectory(getcwd(NULL,0));
 
 	//create a string linking to the mac's images folder
-		string images_dir = currentWorkingDirectory + "/Resources/Images/";
+	string images_dir = currentWorkingDirectory + "/Resources/Images/";
 
 #endif
 
@@ -828,13 +822,6 @@ int main(int argc, char* argv[]) {
 		{
 		case MENU:
 			menu = true;
-			cout << "The Game State is Menu" << endl;
-			cout << "Press the A Button for Instructions" << endl;
-			cout << "Press the B Button for 1 Player Game" << endl;
-			cout << "Press the X Button for 2 Player Game" << endl;
-			cout << "Press the Y Button to Quit Game" << endl;
-			cout << endl;
-
 			while(menu)
 			{
 				// set up frame rate for the section, or CASE
@@ -851,58 +838,47 @@ int main(int argc, char* argv[]) {
 						quit = true;
 						menu = false;
 						break;
-
 					}
-
 					switch(event.type)
 					{
-
 					case SDL_CONTROLLERBUTTONDOWN:
 
 						if(event.cdevice.which == 0)
 						{
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 							{
-								if (onePlayerO){
-								menu = false;
-								gameState = PLAYERS1;
-								players1Over = false;
+								if (players1Over){
+									menu = false;
+									gameState = PLAYERS1;
+									players1Over = false;
+								}
+								if (players2Over){
+									menu = false;
+									gameState = PLAYERS2;
+									players2Over = false;
+								}
+								if (instructionsOver){
+									menu = false;
+									gameState = INSTRUCTIONS;
+									instructionsOver = false;
+								}
+								if (quitOver){
+									menu = false;
+									quit = true;
+									quitOver = false;
+								}
 							}
-
-							{
-								if (twoPlayerO){
-								menu = false;
-								gameState = PLAYERS2;
-								players2Over = false;
-							}
-
-							{
-								if (instructionsBO){
-								menu = false;
-								gameState = INSTRUCTIONS;
-								players2Over = false;
-							}
-
-							if (quitBO){
-								menu = false;
-								quit = true;
-								players2Over = false;
-							}
-
-						}
-						}
-						}
 						}
 						break;
+						// ********************** Move cursor **************************
 					case SDL_CONTROLLERAXISMOTION:
 						moveCursor(event.caxis);
 						break;
-
 					}
 				}
 				//Update
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
 
 				// Update Cursor
 				UpdateCursor(deltaTime);
@@ -926,51 +902,45 @@ int main(int argc, char* argv[]) {
 				// Draw the Game Title image
 				SDL_RenderCopy(renderer,title,NULL,&titlePos);
 
+				// *************************** Button Over states **************************
 				// Draw the One Player image
 				if(players1Over){
-				SDL_RenderCopy(renderer,onePlayerO,NULL,&onePlayerPos);
+					SDL_RenderCopy(renderer,onePlayerO,NULL,&onePlayerPos);
 				}else{
-				SDL_RenderCopy(renderer,onePlayer,NULL,&onePlayerPos);
+					SDL_RenderCopy(renderer,onePlayer,NULL,&onePlayerPos);
 				}
 				// Draw the Two Player image
 				if(players2Over){
-				SDL_RenderCopy(renderer,twoPlayerO,NULL,&twoPlayerPos);
+					SDL_RenderCopy(renderer,twoPlayerO,NULL,&twoPlayerPos);
 				}else{
-				SDL_RenderCopy(renderer,twoPlayer,NULL,&twoPlayerPos);
+					SDL_RenderCopy(renderer,twoPlayer,NULL,&twoPlayerPos);
 				}
 				// Draw the Instructions image
 				if(instructionsOver){
-				SDL_RenderCopy(renderer,instructionsBO,NULL,&instructionsBPos);
+					SDL_RenderCopy(renderer,instructionsBO,NULL,&instructionsBPos);
 				}else{
-				SDL_RenderCopy(renderer,instructionsB,NULL,&instructionsBPos);
+					SDL_RenderCopy(renderer,instructionsB,NULL,&instructionsBPos);
 				}
 				// Draw the Quit image
 				if(quitOver){
-				SDL_RenderCopy(renderer,quitBO,NULL,&quitBPos);
+					SDL_RenderCopy(renderer,quitBO,NULL,&quitBPos);
 				}else{
-				SDL_RenderCopy(renderer,quitB,NULL,&quitBPos);
+					SDL_RenderCopy(renderer,quitB,NULL,&quitBPos);
 				}
+				// *************************** Button Over states **************************
 
 				// Draw the cursor image
 				SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
 
 				//SDL Render present
 				SDL_RenderPresent(renderer);
-
-
-
 			}
 			break; // end menu case
 
 		case INSTRUCTIONS:
 			instructions = true;
-			cout << "The Game State is Instructions" << endl;
-			cout << "Press the A Button for Main Menu" << endl;
-			cout << endl;
-
 			while(instructions)
 			{
-
 				// set up frame rate for the section, or CASE
 				thisTime = SDL_GetTicks();
 				deltaTime = (float)(thisTime - lastTime)/1000;
@@ -983,34 +953,37 @@ int main(int argc, char* argv[]) {
 					if(event.type == SDL_QUIT)
 					{
 						quit = true;
-						instructions = false;
+						menu = false;
 						break;
-
 					}
-
 					switch(event.type)
 					{
-
 					case SDL_CONTROLLERBUTTONDOWN:
-
 						if(event.cdevice.which == 0)
 						{
-
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 							{
-
-								instructions = false;
-								gameState = MENU;
-
+								if(menuOver) {
+									instructions = false;
+									gameState = MENU;
+									menuOver = false;
+								}
 							}
 						}
+						break;
+					case SDL_CONTROLLERAXISMOTION:
+						moveCursor(event.caxis);
 						break;
 					}
 				}
 
 				//Update
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
+
+				UpdateCursor(deltaTime);
+
+				menuOver = SDL_HasIntersection(&activePos, &returnToMainMenuIPos);
 
 				// Start Drawing
 
@@ -1030,7 +1003,11 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer,instructionsT,NULL,&instructionsTPos);
 
 				// Draw the Return to Main Menu button
-				SDL_RenderCopy(renderer,returnToMainMenuI,NULL,&returnToMainMenuIPos);
+				if(menuOver){
+					SDL_RenderCopy(renderer, returnToMainMenuIO, NULL, &returnToMainMenuIPos);
+				}else{
+					SDL_RenderCopy(renderer, returnToMainMenuI, NULL, &returnToMainMenuIPos);
+				}
 
 				// Draw the cursor image
 				SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
@@ -1043,14 +1020,8 @@ int main(int argc, char* argv[]) {
 
 		case PLAYERS1:
 			players1 = true;
-			cout << "The Game State is 1 Player Game" << endl;
-			cout << "Press the A Button for Win Screen" << endl;
-			cout << "Press the B Button for Lose Screen" << endl;
-			cout << endl;
-
 			while(players1)
 			{
-
 				// set up frame rate for the section, or CASE
 				thisTime = SDL_GetTicks();
 				deltaTime = (float)(thisTime - lastTime)/1000;
@@ -1064,7 +1035,6 @@ int main(int argc, char* argv[]) {
 						quit = true;
 						players1 = false;
 						break;
-
 					}
 
 					switch(event.type)
@@ -1074,26 +1044,21 @@ int main(int argc, char* argv[]) {
 
 						if(event.cdevice.which == 0)
 						{
-
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
 							{
-
 								players1 = false;
 								gameState = WIN;
-
 							}
 
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
 							{
-
 								players1 = false;
 								gameState = LOSE;
 							}
 							player1.OnControllerButton(event.cbutton);
 						}
 						break;
-						case SDL_CONTROLLERAXISMOTION:
-
+					case SDL_CONTROLLERAXISMOTION:
 						player1.OnControllerAxis(event.caxis);
 						break;
 					}
@@ -1101,7 +1066,7 @@ int main(int argc, char* argv[]) {
 
 				//Update
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
 
 				// Update Player
 				player1.Update(deltaTime);
@@ -1137,11 +1102,6 @@ int main(int argc, char* argv[]) {
 
 		case PLAYERS2:
 			players2 = true;
-			cout << "The Game State is 2 Player Game" << endl;
-			cout << "Press the A Button for Win Screen" << endl;
-			cout << "Press the B Button for Lose Screen" << endl;
-			cout << endl;
-
 			while(players2)
 			{
 				// set up frame rate for the section, or CASE
@@ -1157,7 +1117,6 @@ int main(int argc, char* argv[]) {
 						quit = true;
 						players2 = false;
 						break;
-
 					}
 
 					switch(event.type)
@@ -1168,18 +1127,14 @@ int main(int argc, char* argv[]) {
 						{
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 							{
-
 								players2 = false;
 								gameState = WIN;
-
 							}
 
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
 							{
-
 								players2 = false;
 								gameState = LOSE;
-
 							}
 						}
 						break;
@@ -1188,7 +1143,7 @@ int main(int argc, char* argv[]) {
 
 				//Update
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
 
 				// Start Drawing
 
@@ -1219,11 +1174,6 @@ int main(int argc, char* argv[]) {
 
 		case WIN:
 			win = true;
-			cout << "The Game State is WIN" << endl;
-			cout << "Press the A Button for Main Menu" << endl;
-			cout << "Press the B Button to Quit" << endl;
-			cout << endl;
-
 			while(win)
 			{
 
@@ -1247,32 +1197,37 @@ int main(int argc, char* argv[]) {
 					switch(event.type)
 					{
 					case SDL_CONTROLLERBUTTONDOWN:
-
 						if(event.cdevice.which == 0)
 						{
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 							{
-
-								win = false;
-								gameState = MENU;
-
-							}
-
-							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
-							{
-
-								win = false;
-								quit = true;
-
+								if(menuOver){
+									win = false;
+									gameState = MENU;
+									menuOver = false;
+								}
+								if(playOver){
+									win = false;
+									gameState = PLAYERS1;
+									playOver = false;
+								}
 							}
 						}
+						break;
+					case SDL_CONTROLLERAXISMOTION:
+						moveCursor(event.caxis);
 						break;
 					}
 				}
 
 				//Update
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
+
+				UpdateCursor(deltaTime);
+
+				menuOver = SDL_HasIntersection(&activePos, &returnToMainMenuWPos);
+				playOver = SDL_HasIntersection(&activePos, &playAgainBWPos);
 
 				// Start Drawing
 
@@ -1289,10 +1244,17 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer,winT,NULL,&winTPos);
 
 				// Draw the Return to Main Menu button
-				SDL_RenderCopy(renderer,returnToMainMenuW,NULL,&returnToMainMenuWPos);
+				if(menuOver){
+					SDL_RenderCopy(renderer,returnToMainMenuWO,NULL,&returnToMainMenuWPos);
+				}else{
+					SDL_RenderCopy(renderer,returnToMainMenuW,NULL,&returnToMainMenuWPos);
+				}
 
-				// Draw the Play Again button
-				SDL_RenderCopy(renderer,playAgainBW,NULL,&playAgainBWPos);
+				if(playOver){
+					SDL_RenderCopy(renderer,playAgainBWO,NULL,&playAgainBWPos);
+				}else{
+					SDL_RenderCopy(renderer,playAgainBW,NULL,&playAgainBWPos);
+				}
 
 				// Draw the cursor image
 				SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
@@ -1305,11 +1267,6 @@ int main(int argc, char* argv[]) {
 
 		case LOSE:
 			lose = true;
-			cout << "The Game State is LOSE" << endl;
-			cout << "Press the A Button for Main Menu" << endl;
-			cout << "Press the B Button to Quit" << endl;
-			cout << endl;
-
 			while(lose)
 			{
 				// set up frame rate for the section, or CASE
@@ -1326,7 +1283,6 @@ int main(int argc, char* argv[]) {
 						quit = true;
 						lose = false;
 						break;
-
 					}
 
 					switch(event.type)
@@ -1337,28 +1293,33 @@ int main(int argc, char* argv[]) {
 						{
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 							{
-
-								lose = false;
-								gameState = MENU;
-
-							}
-
-							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
-							{
-
-								lose = false;
-								quit = true;
-
+								if(menuOver){
+									win = false;
+									gameState = MENU;
+									menuOver = false;
+								}
+								if(playOver){
+									win = false;
+									gameState = PLAYERS1;
+									playOver = false;
+								}
 							}
 						}
 						break;
+					case SDL_CONTROLLERAXISMOTION:
+						moveCursor(event.caxis);
+						break;
 					}
-
 				}
 
 				//Update
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
+
+				UpdateCursor(deltaTime);
+
+				menuOver = SDL_HasIntersection(&activePos, &returnToMainMenuLPos);
+				playOver = SDL_HasIntersection(&activePos, &playAgainBLPos);
 
 				// Start Drawing
 
@@ -1375,10 +1336,17 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer,loseT,NULL,&loseTPos);
 
 				// Draw the Return to Main Menu button
-				SDL_RenderCopy(renderer,returnToMainMenuL,NULL,&returnToMainMenuLPos);
+				if(menuOver){
+					SDL_RenderCopy(renderer,returnToMainMenuLO,NULL,&returnToMainMenuLPos);
+				}else{
+					SDL_RenderCopy(renderer,returnToMainMenuL,NULL,&returnToMainMenuLPos);
+				}
 
-				// Draw the Play Again button
-				SDL_RenderCopy(renderer,playAgainBL,NULL,&playAgainBLPos);
+				if(playOver){
+					SDL_RenderCopy(renderer,playAgainBLO,NULL,&playAgainBLPos);
+				}else{
+					SDL_RenderCopy(renderer,playAgainBL,NULL,&playAgainBLPos);
+				}
 
 				// Draw the cursor image
 				SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
