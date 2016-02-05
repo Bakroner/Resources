@@ -227,8 +227,9 @@ int main(int argc, char* argv[]) {
 	// create the renderer
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	// create players
+	//**************************** create players **************************
 	Player player1 = Player(renderer, 0, images_dir.c_str(), 250.0,500.0);
+	Player player2 = Player(renderer, 1, images_dir.c_str(), 750.0,500.0);
 
 	//*********************** Create Background *********************************
 	SDL_Surface *surface = IMG_Load((images_dir + "Background Test.png").c_str());
@@ -790,15 +791,24 @@ int main(int argc, char* argv[]) {
 	//Update the surface
 	SDL_UpdateWindowSurface( window );
 	 */
-
-	//***** set up a Game Controller variable*****
-	SDL_GameController*gGameController = NULL;
-
-	//***** Open Game Controller*****
-	gGameController = SDL_GameControllerOpen(0);
+	//********************* CREATE CONTROLLERS ***********************************
 
 	//***** Turn on Game Controller Events*****
 	SDL_GameControllerEventState(SDL_ENABLE);
+
+	//***** set up a Game Controller variable*****
+	SDL_GameController* gGameController0 = NULL;
+
+	//***** Open Game Controller*****
+	gGameController0 = SDL_GameControllerOpen(0);
+
+	//***** set up a Game Controller variable*****
+	SDL_GameController* gGameController1 = NULL;
+
+	//***** Open Game Controller*****
+	gGameController1 = SDL_GameControllerOpen(1);
+
+	//********************* CREATE CONTROLLERS ***********************************
 
 	//***** SDL Event to handle input*****
 	SDL_Event event;
@@ -1042,7 +1052,7 @@ int main(int argc, char* argv[]) {
 
 					case SDL_CONTROLLERBUTTONDOWN:
 
-						if(event.cdevice.which == 0)
+						if(event.cdevice.which == 0 ||event.cdevice.which == 1)
 						{
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
 							{
@@ -1083,16 +1093,16 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer,bkgd2,NULL,&bkgd2Pos);
 
 				// Draw the title image
-				SDL_RenderCopy(renderer,title,NULL,&titlePos);
+				//SDL_RenderCopy(renderer,title,NULL,&titlePos);
 
 				// Draw the one player graphic image image
-				SDL_RenderCopy(renderer,onePlayerGameG,NULL,&onePlayerGameGPos);
+				//SDL_RenderCopy(renderer,onePlayerGameG,NULL,&onePlayerGameGPos);
 
 				//Draw Player1
 				player1.Draw(renderer);
 
 				// Draw the cursor image
-				SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
+				//SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
 
 				//SDL Render present
 				SDL_RenderPresent(renderer);
@@ -1125,18 +1135,26 @@ int main(int argc, char* argv[]) {
 
 						if(event.cdevice.which == 0)
 						{
-							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
 							{
 								players2 = false;
 								gameState = WIN;
 							}
 
-							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
 							{
 								players2 = false;
 								gameState = LOSE;
 							}
 						}
+						player1.OnControllerButton(event.cbutton);
+						player2.OnControllerButton(event.cbutton);
+
+						break;
+
+					case SDL_CONTROLLERAXISMOTION:
+						player1.OnControllerAxis(event.caxis);
+						player2.OnControllerAxis(event.caxis);
 						break;
 					}
 				}
@@ -1144,6 +1162,10 @@ int main(int argc, char* argv[]) {
 				//Update
 
 				UpdateBackground(deltaTime);
+
+				player1.Update(deltaTime);
+
+				player2.Update(deltaTime);
 
 				// Start Drawing
 
@@ -1157,13 +1179,17 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer,bkgd2,NULL,&bkgd2Pos);
 
 				// Draw the title image
-				SDL_RenderCopy(renderer,title,NULL,&titlePos);
+				//SDL_RenderCopy(renderer,title,NULL,&titlePos);
 
 				// Draw the two player graphic image image
-				SDL_RenderCopy(renderer,twoPlayerGameG,NULL,&twoPlayerGameGPos);
+				//SDL_RenderCopy(renderer,twoPlayerGameG,NULL,&twoPlayerGameGPos);
+
+				player1.Draw(renderer);
+
+				player2.Draw(renderer);
 
 				// Draw the cursor image
-				SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
+				//SDL_RenderCopy(renderer,cursor,NULL,&cursorPos);
 
 				//SDL Render present
 				SDL_RenderPresent(renderer);

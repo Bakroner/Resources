@@ -23,8 +23,21 @@ Player::Player(SDL_Renderer*renderer, int pNum, string filePath, float x, float 
 	posRect.h = h;
 	pos_X = x;
 	pos_Y = y;
-	xDir = x;
-	yDir = y;
+	xDir = 0;
+	yDir = 0;
+
+	string bulletPath;
+	if(playerNum == 0){
+		bulletPath = filePath + "Bullet 1.png";
+	}else{
+		bulletPath = filePath + "Bullet 2.png";
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		Bullet tmpBullet(renderer, bulletPath, -1000, -1000);
+		bulletlist.push_back(tmpBullet);
+	}
 }
 
 void Player::Update(float deltaTime)
@@ -57,11 +70,51 @@ void Player::Update(float deltaTime)
 		posRect.y = 768 - posRect.h;
 		pos_Y = posRect.y;
 	}
+	for (int i = 0; i < bulletlist.size(); i++)
+	{
+		if(bulletlist[i].active){
+
+			bulletlist[i].Update(deltaTime);
+		}
+	}
 }
 
 void Player::Draw(SDL_Renderer*renderer)
 {
 	SDL_RenderCopy(renderer, texture, NULL, &posRect);
+
+	for (int i = 0; i < bulletlist.size(); i++)
+	{
+		if(bulletlist[i].active){
+
+			bulletlist[i].Draw(renderer);
+		}
+	}
+}
+
+Player::~Player()
+{
+	SDL_DestroyTexture(texture);
+}
+
+void Player::CreateBullet(){
+	for (int i = 0; i < bulletlist.size(); i++)
+	{
+		if(bulletlist[i].active == false){
+
+			bulletlist[i].active = true;
+
+			bulletlist[i].posRect.x = (pos_X + (posRect.w/2));
+
+			bulletlist[i].posRect.x = (bulletlist[i].posRect.x - (bulletlist[i].posRect.w/2));
+			bulletlist[i].posRect.y = posRect.y;
+
+			bulletlist[i].pos_X = pos_X;
+			bulletlist[i].pos_Y = pos_Y;
+
+			break;
+		}
+	}
 }
 
 void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
@@ -71,6 +124,8 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 		if(event.button == 0)
 		{
 			cout << "Player 1 - Button A" << endl;
+
+			CreateBullet();
 		}
 	}
 	if(event.which == 1 && playerNum == 1)
@@ -78,6 +133,8 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 		if(event.button == 1)
 		{
 			cout << "Player 2 - Button A" << endl;
+
+			CreateBullet();
 		}
 	}
 }
@@ -120,7 +177,43 @@ void Player::OnControllerAxis(const SDL_ControllerAxisEvent event)
 			}
 		}
 	}
+
+	if(event.which == 1 && playerNum == 1)
+	{
+		if(event.axis == 0)
+		{
+			if(event.value < -JOYSTICK_DEAD_ZONE)
+			{
+				xDir = -1.0f;
+			}
+			else if (event.value > JOYSTICK_DEAD_ZONE)
+			{
+				xDir = 1.0f;
+			}
+			else
+			{
+				xDir = 0.0f;
+			}
+		}
+
+		if(event.axis == 1)
+		{
+			if(event.value < -JOYSTICK_DEAD_ZONE)
+			{
+				yDir = -1.0f;
+			}
+			else if (event.value > JOYSTICK_DEAD_ZONE)
+			{
+				yDir = 1.0f;
+			}
+			else
+			{
+				yDir = 0.0f;
+			}
+		}
+	}
 }
+
 
 
 
