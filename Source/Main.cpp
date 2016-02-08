@@ -1320,12 +1320,12 @@ int main(int argc, char* argv[]) {
 							if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
 							{
 								if(menuOver){
-									win = false;
+									lose = false;
 									gameState = MENU;
 									menuOver = false;
 								}
 								if(playOver){
-									win = false;
+									lose = false;
 									gameState = PLAYERS1;
 									playOver = false;
 								}
