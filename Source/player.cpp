@@ -2,10 +2,11 @@
 
 const int JOYSTICK_DEAD_ZONE = 8000;
 
-Player::Player(SDL_Renderer*renderer, int pNum, string filePath, float x, float y)
+Player::Player(SDL_Renderer*renderer, int pNum, string filePath, string audioPath, float x, float y)
 {
 	playerNum = pNum;
 	speed = 500.0f;
+	laser = Mix_LoadWAV((audioPath + "laser.wav").c_str());
 
 	if(playerNum == 0){
 		playerPath = filePath + "Player1.png";
@@ -101,6 +102,8 @@ void Player::CreateBullet(){
 	for (int i = 0; i < bulletlist.size(); i++)
 	{
 		if(bulletlist[i].active == false){
+
+			Mix_PlayChannel(-1, laser, 0);
 
 			bulletlist[i].active = true;
 
