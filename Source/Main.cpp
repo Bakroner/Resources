@@ -163,6 +163,12 @@ void UpdateCursor(float deltaTime){
 bool players1Over = false, players2Over = false, instructionsOver = false, quitOver = false, menuOver = false, playOver = false;
 
 #include "player.h"
+#include "enemy.h"
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
+
+vector<Enemy> enemyList;
 
 int main(int argc, char* argv[]) {
 
@@ -1139,7 +1145,7 @@ int main(int argc, char* argv[]) {
 				UpdateBackground(deltaTime);
 
 				// Update Player
-				player1.Update(deltaTime);
+				player1.Update(deltaTime, renderer);
 
 				// Start Drawing
 
@@ -1223,9 +1229,9 @@ int main(int argc, char* argv[]) {
 
 				UpdateBackground(deltaTime);
 
-				player1.Update(deltaTime);
+				player1.Update(deltaTime, renderer);
 
-				player2.Update(deltaTime);
+				player2.Update(deltaTime, renderer);
 
 				// Start Drawing
 

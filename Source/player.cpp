@@ -8,6 +8,31 @@ Player::Player(SDL_Renderer*renderer, int pNum, string filePath, string audioPat
 	speed = 500.0f;
 	laser = Mix_LoadWAV((audioPath + "laser.wav").c_str());
 
+	oldScore = 0;
+	playerScore = 0;
+	oldLives = 0;
+	playerLives = 3;
+
+	TTF_Init();
+
+	font = TTF_OpenFont((audioPath + "planetnital.ttf").c_str(), 25);
+
+	if(playerNum == 0){
+		scorePos.x = scorePos.y = 10;
+		livesPos.x = 10;
+		livesPos.y = 40;
+	}else{
+		scorePos.x = 650;
+		scorePos.y = 10;
+		livesPos.x = 650;
+		livesPos.y = 40;
+	}
+
+	// update score
+	UpdateScore(renderer);
+
+	UpdateLives(renderer);
+
 	if(playerNum == 0){
 		playerPath = filePath + "Player1.png";
 	}else{
@@ -41,7 +66,55 @@ Player::Player(SDL_Renderer*renderer, int pNum, string filePath, string audioPat
 	}
 }
 
-void Player::Update(float deltaTime)
+void Player::UpdateLives(SDL_Renderer *renderer){
+	// Fix for the to_string problems on Linux
+	string Result;
+	ostringstream convert;
+	convert << playerLives;
+	Result = convert.str();
+
+	tempLives = "Player Lives: " + Result;
+
+	if(playerNum == 0){
+		livesSurface = TTF_RenderText_Solid(font, tempLives.c_str(), colorP1);
+	}else{
+		livesSurface = TTF_RenderText_Solid(font, tempLives.c_str(), colorP2);
+	}
+
+	livesTexture = SDL_CreateTextureFromSurface(renderer, livesSurface);
+	SDL_QueryTexture(livesTexture, NULL, NULL, &livesPos.w, &livesPos.h);
+
+	SDL_FreeSurface(livesSurface);
+
+	oldLives = playerLives;
+
+}
+
+void Player::UpdateScore(SDL_Renderer *renderer){
+	// Fix for the to_string problems on Linux
+	string Result;
+	ostringstream convert;
+	convert << playerScore;
+	Result = convert.str();
+
+	tempScore = "Player Score: " + Result;
+
+	if(playerNum == 0){
+		scoreSurface = TTF_RenderText_Solid(font, tempScore.c_str(), colorP1);
+	}else{
+		scoreSurface = TTF_RenderText_Solid(font, tempScore.c_str(), colorP2);
+	}
+
+	scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+	SDL_QueryTexture(scoreTexture, NULL, NULL, &scorePos.w, &scorePos.h);
+
+	SDL_FreeSurface(scoreSurface);
+
+	oldScore = playerScore;
+
+}
+
+void Player::Update(float deltaTime, SDL_Renderer *renderer)
 {
 	pos_X += (speed * xDir) * deltaTime;
 	pos_Y += (speed * yDir) * deltaTime;
@@ -78,9 +151,19 @@ void Player::Update(float deltaTime)
 			bulletlist[i].Update(deltaTime);
 		}
 	}
+
+	if(playerScore != oldScore){
+
+		UpdateScore(renderer);
+	}
+
+	if(playerLives != oldLives){
+
+			UpdateLives(renderer);
+		}
 }
 
-void Player::Draw(SDL_Renderer*renderer)
+void Player::Draw(SDL_Renderer *renderer)
 {
 	SDL_RenderCopy(renderer, texture, NULL, &posRect);
 
@@ -91,6 +174,10 @@ void Player::Draw(SDL_Renderer*renderer)
 			bulletlist[i].Draw(renderer);
 		}
 	}
+
+	SDL_RenderCopy(renderer, scoreTexture, NULL, &scorePos);
+
+	SDL_RenderCopy(renderer, livesTexture, NULL, &livesPos);
 }
 
 Player::~Player()
@@ -126,7 +213,11 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 	{
 		if(event.button == 0)
 		{
-			cout << "Player 1 - Button A" << endl;
+			//cout << "Player 1 - Button A" << endl;
+
+			playerScore += 10;
+
+			playerLives -= 1;
 
 			CreateBullet();
 		}
@@ -135,7 +226,11 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 	{
 		if(event.button == 1)
 		{
-			cout << "Player 2 - Button A" << endl;
+			//cout << "Player 2 - Button A" << endl;
+
+			playerScore += 10;
+
+			playerLives -= 1;
 
 			CreateBullet();
 		}
