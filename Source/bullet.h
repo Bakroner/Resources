@@ -34,9 +34,7 @@ public:
 
 	void Draw(SDL_Renderer *renderer);
 
-
-
-
+	void Reset();
 
 
 

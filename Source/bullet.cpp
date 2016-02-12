@@ -19,6 +19,16 @@ Bullet::Bullet(SDL_Renderer *renderer, string filePath, float x, float y)
 	yDir = -1;
 }
 
+void Bullet::Reset(){
+
+	posRect.x = -1000;
+
+	pos_X = posRect.x;
+
+	active = false;
+
+}
+
 void Bullet::Update(float deltaTime)
 {
 	if(active){

@@ -31,6 +31,7 @@ class Player{
 
 public:
 
+	bool active;
 	int playerScore, oldScore, playerLives, oldLives;
 	TTF_Font *font;
 	SDL_Color colorP2 = {0,255, 0, 255};
@@ -67,6 +68,8 @@ public:
 	void UpdateScore(SDL_Renderer *renderer);
 
 	void UpdateLives(SDL_Renderer *renderer);
+
+	void Reset();
 
 private:
 

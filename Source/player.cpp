@@ -4,6 +4,7 @@ const int JOYSTICK_DEAD_ZONE = 8000;
 
 Player::Player(SDL_Renderer*renderer, int pNum, string filePath, string audioPath, float x, float y)
 {
+	active = true;
 	playerNum = pNum;
 	speed = 500.0f;
 	laser = Mix_LoadWAV((audioPath + "laser.wav").c_str());
@@ -66,6 +67,25 @@ Player::Player(SDL_Renderer*renderer, int pNum, string filePath, string audioPat
 	}
 }
 
+void Player::Reset(){
+
+	if(playerNum == 0){
+		posRect.x = 250.0;
+		posRect.y = 500.0;
+	}else{
+		posRect.x = 550.0;
+		posRect.y = 500.0;
+	}
+
+	pos_X = posRect.x;
+	pos_Y = posRect.y;
+	playerLives = 3;
+	playerScore = 0;
+	xDir = 0;
+	yDir = 0;
+	active = true;
+}
+
 void Player::UpdateLives(SDL_Renderer *renderer){
 	// Fix for the to_string problems on Linux
 	string Result;
@@ -87,6 +107,13 @@ void Player::UpdateLives(SDL_Renderer *renderer){
 	SDL_FreeSurface(livesSurface);
 
 	oldLives = playerLives;
+
+	if(playerLives <= 0){
+
+		active = false;
+		posRect.x = posRect.y = -2000;
+		pos_X = pos_Y = -2000;
+	}
 
 }
 
@@ -159,8 +186,8 @@ void Player::Update(float deltaTime, SDL_Renderer *renderer)
 
 	if(playerLives != oldLives){
 
-			UpdateLives(renderer);
-		}
+		UpdateLives(renderer);
+	}
 }
 
 void Player::Draw(SDL_Renderer *renderer)
@@ -215,22 +242,14 @@ void Player::OnControllerButton(const SDL_ControllerButtonEvent event)
 		{
 			//cout << "Player 1 - Button A" << endl;
 
-			playerScore += 10;
-
-			playerLives -= 1;
-
 			CreateBullet();
 		}
 	}
 	if(event.which == 1 && playerNum == 1)
 	{
-		if(event.button == 1)
+		if(event.button == 0)
 		{
 			//cout << "Player 2 - Button A" << endl;
-
-			playerScore += 10;
-
-			playerLives -= 1;
 
 			CreateBullet();
 		}
